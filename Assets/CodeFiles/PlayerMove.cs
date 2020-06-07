@@ -6,21 +6,31 @@ public class PlayerMove : MonoBehaviour
 {
     public Camera mainCam;
     
-    public float thrust = 50.0f;
-    public float rotatespeed = 80.0f;
+    public float thrust = 80f;
+    private float originalThrust;
+  
     private Rigidbody2D rb2D;
     private float addangle = 180;
-    public Texture2D cursorTexture;
+    
     private SpriteRenderer SR;
- 
+
+    public enum ControlOptions {AD, WS, WASD};
+    public ControlOptions CO = ControlOptions.AD ;
+
+    private bool ADforward = true;
+    private bool WSforward = false;
+    private bool traditionalWASD = false;
+
     void Start()
     {
         SR = GetComponent<SpriteRenderer>();
-        Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
+        originalThrust = thrust;
         rb2D = GetComponent<Rigidbody2D>();
+       
         
     }
-    
+
+   
     void Update()
     {
         
@@ -35,7 +45,7 @@ public class PlayerMove : MonoBehaviour
         // Rotate Object
         float AngleDeg = (180 / Mathf.PI) * AngleRad + addangle;        
         transform.rotation = Quaternion.Euler(0, 0, AngleDeg);
-       
+        
 
         if(AngleDeg >= 180 && AngleDeg < 270)
         {
@@ -50,7 +60,27 @@ public class PlayerMove : MonoBehaviour
            SR.flipY = false;
         }
         
+        switch(CO)
+        {
+            case ControlOptions.AD: 
+            ADforward = true;
+            WSforward = false;
+            traditionalWASD = false; 
+            break;
 
+            case ControlOptions.WS: 
+            ADforward = false;
+            WSforward = true;
+            traditionalWASD = false; 
+            break;
+            
+            case ControlOptions.WASD:
+            ADforward = false;
+            WSforward = false;
+            traditionalWASD = true; 
+            break;
+
+        }
        
     }
 
@@ -59,21 +89,39 @@ public class PlayerMove : MonoBehaviour
     void FixedUpdate()
     {
        
-         if(Input.GetKey(KeyCode.A))
+        if(ADforward)
         {
-               
-                rb2D.AddForce( -transform.right * thrust, ForceMode2D.Force);
+           //transform.position += transform.right * Input.GetAxis("Horizontal") * thrust * Time.deltaTime;
+           
+           rb2D.AddForce(transform.right * Input.GetAxis("Horizontal") * thrust, ForceMode2D.Force);
+            
         }
-        else if(Input.GetKey(KeyCode.D))
+        else if(WSforward)
         {
-               
-                rb2D.AddForce(transform.right * thrust, ForceMode2D.Force);
+           //transform.position += -transform.right * Input.GetAxis("Vertical") * thrust * Time.deltaTime;
+           rb2D.AddForce(-transform.right * Input.GetAxis("Vertical") * thrust, ForceMode2D.Force);
+
         }
-        
-        if(Input.GetKey(KeyCode.S))
+        else if(traditionalWASD)
         {
-               
-                rb2D.velocity = rb2D.velocity * 0.93f;
+           //transform.position += transform.right * Input.GetAxis("Horizontal") * thrust * Time.deltaTime;
+           //transform.position += transform.up * Input.GetAxis("Vertical") * thrust * Time.deltaTime;
+
+           rb2D.AddForce(-transform.right * Input.GetAxis("Horizontal") * thrust, ForceMode2D.Force);
+           rb2D.AddForce(transform.up * Input.GetAxis("Vertical") * thrust, ForceMode2D.Force);
+
+
+        }
+      
+
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+           
+            thrust = thrust * 0.995f;  
+        }
+        else
+        {
+             thrust = originalThrust;
         }
     
       
