@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour
         // Rotate Object
         float AngleDeg = (180 / Mathf.PI) * AngleRad + addangle;        
         transform.rotation = Quaternion.Euler(0, 0, AngleDeg);
-        Debug.Log(AngleDeg);
+       
 
         if(AngleDeg >= 180 && AngleDeg < 270)
         {
