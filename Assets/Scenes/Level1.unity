@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0173868e88d3434e8dddc64636d8380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorTexture: {fileID: 2800000, guid: 561fcb7330e1c8b46a46763c68726147, type: 3}
+  cursorTexture: {fileID: 2800000, guid: 4a6922f5dc0d9f9489e1e3314bd1228f, type: 3}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -525,8 +525,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 10
-  m_LinearDrag: 0.4
-  m_AngularDrag: 0.05
+  m_LinearDrag: 1.3
+  m_AngularDrag: 0.5
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -610,8 +610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCam: {fileID: 519420031}
-  thrust: 5
-  rotatespeed: 40
+  thrust: 80
   CO: 0
 --- !u!95 &1349416675
 Animator:
